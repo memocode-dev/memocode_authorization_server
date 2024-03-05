@@ -57,13 +57,13 @@ public class CustomClaimsConfiguration {
 
                     if (account.getAuthority() == USER) {
                         context.getClaims().claims((claims) -> {
-                            claims.put("scope", "read:me-user");
+                            claims.put("scope", "read:me-user read:question write:question read:memo write:memo");
                         });
                     }
 
                     if (account.getAuthority() == ADMIN) {
                         context.getClaims().claims((claims) -> {
-                            claims.put("scope", "read:user write:user write:organization read:me-user");
+                            claims.put("scope", "read:user write:user write:organization read:me-user read:question write:question read:memo write:memo");
                         });
                     }
 
