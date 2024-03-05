@@ -101,7 +101,7 @@ jobs:
         uses: Azure/k8s-set-context@v3.0
         with:
           method: kubeconfig
-          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+          kubeconfig: ${{ secrets.MEMOCODE_KUBE_CONFIG }}
       - name: 버전 변경
         run: |
           kubectl set image deployment/memocode-authorization-server-dev spring-boot=ghcr.io/memocode-dev/memocode_authorization_server:${{ needs.tag.outputs.tag_name }} --namespace=memocode
