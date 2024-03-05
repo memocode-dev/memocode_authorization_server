@@ -1,0 +1,51 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3308/memocode_auth_dev
+    username: root
+    password: 1234
+  sql:
+    init:
+      mode: always
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: "http://localhost:9000"
+      client:
+        registration:
+          kakao:
+            client-id: "2fc58fb6caf2f47ac9b7db292a86941e"
+            redirect-uri: "http://localhost:9000/login/oauth2/code/kakao"
+      authorizationserver:
+        client:
+          public-client:
+            registration:
+              client-id: "bcf89ce8-0750-4c02-8b09-88bafc60abcd"
+              client-secret: "{noop}0cc07a17-28fa-4bc6-b081-e57cd7d6efdd"
+              redirect-uris:
+                - "http://localhost:5173"
+              post-logout-redirect-uris:
+                - "http://localhost:5173"
+          authorization-server:
+            registration:
+              client-id: "86664049-4bf9-4aba-99dd-e7e3e6897c63"
+              client-secret: "{noop}29d11459-4266-4f95-93bd-63b30a24b28a"
+          user-server:
+            registration:
+              client-id: "2c3c2ad3-c751-4bef-926a-0023ea0d279d"
+              client-secret: "{noop}16f9fa67-ed29-47a3-9781-6f4207b62aac"
+
+custom:
+  front:
+    domain: "http://localhost:5173"
+
+# logging
+logging:
+  level:
+    org.springframework.security: trace
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
