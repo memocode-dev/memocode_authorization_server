@@ -103,6 +103,7 @@ jasypt:
 custom:
   front:
     domain: "SECRET"
+    domain2: "SECRET"
 
 ########## springdoc ##########
 springdoc:

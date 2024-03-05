@@ -41,6 +41,7 @@ spring:
 custom:
   front:
     domain: "https://memocode.dev"
+    domain2: "https://memocode.dev"
 
 jasypt:
   encryptor:
