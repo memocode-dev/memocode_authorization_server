@@ -29,8 +29,10 @@ spring:
               client-secret: "{noop}0cc07a17-28fa-4bc6-b081-e57cd7d6efdd"
               redirect-uris:
                 - "http://localhost:5173"
+                - "https://dev.memocode.dev"
               post-logout-redirect-uris:
                 - "http://localhost:5173"
+                - "https://dev.memocode.dev"
           user-server:
             registration:
               client-id: "8ff2570b-8d6f-4bd9-b342-4b17e5f14d1b"
