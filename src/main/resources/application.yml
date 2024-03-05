@@ -71,20 +71,6 @@ spring:
                 - "openid"
             require-authorization-consent: false
             require-proof-key: true
-          authorization-server:
-            token:
-              access-token-time-to-live: 5m
-            registration:
-              client-name: "authorization-server"
-              client-id: "SECRET_authorization-server"
-              client-secret: "SECRET_authorization-server"
-              client-authentication-methods:
-                - "client_secret_basic"
-                - "client_secret_post"
-              authorization-grant-types:
-                - "client_credentials"
-              scopes:
-                - "write:log"
           user-server:
             token:
               access-token-time-to-live: 5m

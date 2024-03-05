@@ -22,6 +22,8 @@ spring:
       authorizationserver:
         client:
           public-client:
+            token:
+              access-token-time-to-live: 30d
             registration:
               client-id: "bcf89ce8-0750-4c02-8b09-88bafc60abcd"
               client-secret: "{noop}0cc07a17-28fa-4bc6-b081-e57cd7d6efdd"
