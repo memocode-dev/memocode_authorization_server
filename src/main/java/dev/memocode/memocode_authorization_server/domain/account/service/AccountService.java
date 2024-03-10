@@ -35,7 +35,6 @@ public class AccountService {
     }
 
     public Account createAccount(AccountCreateDTO dto) {
-
         Account account = Account.builder()
                 .authType(dto.getType())
                 .authId(dto.getAuthId())
@@ -47,7 +46,6 @@ public class AccountService {
     }
 
     public void updateAccount(AccountUpdateDTO dto) {
-
         Account account = findByIdElseThrow(dto.getAccountId());
 
         account.updateAuthority(dto.getAuthority());

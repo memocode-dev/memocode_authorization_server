@@ -85,6 +85,29 @@ spring:
                 - "client_credentials"
               scopes:
                 - "write:account"
+  kafka:
+    topic:
+      users: "SECRET"
+    security:
+      protocol: SASL_SSL
+    ssl:
+      trust-store-location: classpath:/kafka/client-truststore.jks
+      trust-store-password: 123456
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      bootstrap-servers: prod-server:31092
+      properties:
+        sasl.mechanism: SCRAM-SHA-512
+        sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="test-user" password="nX2sey9AqcR0ti5dsj22fktwKDupmi";
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      bootstrap-servers: prod-server:31092
+      properties:
+        sasl.mechanism: SCRAM-SHA-512
+        sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="test-user" password="nX2sey9AqcR0ti5dsj22fktwKDupmi";
+      auto-offset-reset: "earliest"
 
 # logging
 logging:

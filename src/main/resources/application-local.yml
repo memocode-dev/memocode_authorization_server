@@ -1,12 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3308/memocode_auth_dev
-    username: root
-    password: 1234
-  sql:
-    init:
-      mode: always
+    url: jdbc:mysql://prod-server:32000/memocode_authorization_server_dev
+    username: memocode-dev
+    password: memocode-dev
   security:
     oauth2:
       resourceserver:
@@ -29,14 +26,13 @@ spring:
                 - "http://localhost:5173"
               post-logout-redirect-uris:
                 - "http://localhost:5173"
-          authorization-server:
-            registration:
-              client-id: "86664049-4bf9-4aba-99dd-e7e3e6897c63"
-              client-secret: "{noop}29d11459-4266-4f95-93bd-63b30a24b28a"
           user-server:
             registration:
               client-id: "2c3c2ad3-c751-4bef-926a-0023ea0d279d"
               client-secret: "{noop}16f9fa67-ed29-47a3-9781-6f4207b62aac"
+  kafka:
+    topic:
+      users: "memocode-dev.outbox.event.USER"
 
 custom:
   front:

@@ -37,6 +37,9 @@ spring:
             registration:
               client-id: "8ff2570b-8d6f-4bd9-b342-4b17e5f14d1b"
               client-secret: "{noop}2d4283d2-e8f1-41a6-bef2-a1219826b180"
+  kafka:
+    topic:
+      users: "memocode-dev.outbox.event.USER"
 
 custom:
   front:
