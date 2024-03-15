@@ -1,4 +1,4 @@
-package dev.memocode.memocode_authorization_server.domain.outbox.entity;
+package dev.memocode.memocode_authorization_server.out.outbox.entity;
 
 import java.util.Optional;
 import java.util.stream.Stream;

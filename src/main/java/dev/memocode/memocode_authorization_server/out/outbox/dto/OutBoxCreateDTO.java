@@ -1,8 +1,8 @@
-package dev.memocode.memocode_authorization_server.domain.outbox.dto;
+package dev.memocode.memocode_authorization_server.out.outbox.dto;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import dev.memocode.memocode_authorization_server.domain.outbox.entity.AggregateType;
-import dev.memocode.memocode_authorization_server.domain.outbox.entity.EventType;
+import dev.memocode.memocode_authorization_server.out.outbox.entity.AggregateType;
+import dev.memocode.memocode_authorization_server.out.outbox.entity.EventType;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

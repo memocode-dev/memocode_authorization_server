@@ -1,4 +1,4 @@
-package dev.memocode.memocode_authorization_server.domain.outbox.entity;
+package dev.memocode.memocode_authorization_server.out.outbox.entity;
 
 import dev.memocode.memocode_authorization_server.domain.base.entity.BaseEntity;
 import jakarta.persistence.Column;

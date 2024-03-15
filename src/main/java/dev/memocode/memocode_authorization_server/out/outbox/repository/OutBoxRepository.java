@@ -1,6 +1,6 @@
-package dev.memocode.memocode_authorization_server.domain.outbox.repository;
+package dev.memocode.memocode_authorization_server.out.outbox.repository;
 
-import dev.memocode.memocode_authorization_server.domain.outbox.entity.OutBox;
+import dev.memocode.memocode_authorization_server.out.outbox.entity.OutBox;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
