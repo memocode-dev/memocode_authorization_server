@@ -7,6 +7,7 @@ CREATE TABLE accounts
     auth_id    VARCHAR(255) NOT NULL,
     auth_type  ENUM('KAKAO', 'EMAIL') NOT NULL,
     authority  ENUM('ANONYMOUS', 'USER', 'ADMIN') NOT NULL,
+    user_id    CHAR(36)     NOT NULL UNIQUE,
     created_at DATETIME     NOT NULL,
     updated_at DATETIME     NOT NULL,
     deleted_at DATETIME,

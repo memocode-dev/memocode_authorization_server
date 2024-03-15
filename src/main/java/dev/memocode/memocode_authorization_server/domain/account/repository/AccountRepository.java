@@ -10,4 +10,6 @@ import java.util.UUID;
 
 public interface AccountRepository extends JpaRepository<Account, UUID> {
     Optional<Account> findByAuthIdAndAuthType(String authId, AuthType authType);
+
+    Optional<Account> findByUserId(UUID userId);
 }

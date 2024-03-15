@@ -1,53 +1,96 @@
 package dev.memocode.memocode_authorization_server.domain.account.service;
 
+import dev.memocode.memocode_authorization_server.domain.account.dto.AccountCreateDTO;
+import dev.memocode.memocode_authorization_server.domain.account.dto.AccountDTO;
+import dev.memocode.memocode_authorization_server.domain.account.dto.AccountFindOrCreateDTO;
+import dev.memocode.memocode_authorization_server.domain.account.dto.AccountUpdateAfterSignupDTO;
 import dev.memocode.memocode_authorization_server.domain.account.entity.Account;
 import dev.memocode.memocode_authorization_server.domain.account.entity.AuthType;
+import dev.memocode.memocode_authorization_server.domain.account.entity.Authority;
+import dev.memocode.memocode_authorization_server.domain.account.mapper.AccountMapper;
 import dev.memocode.memocode_authorization_server.domain.account.repository.AccountRepository;
-import dev.memocode.memocode_authorization_server.dto.AccountCreateDTO;
-import dev.memocode.memocode_authorization_server.dto.AccountUpdateDTO;
-import dev.memocode.memocode_authorization_server.exception.GlobalErrorCode;
-import dev.memocode.memocode_authorization_server.exception.GlobalException;
+import dev.memocode.memocode_authorization_server.domain.exception.GlobalException;
+import dev.memocode.memocode_authorization_server.usecase.AccountUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.Optional;
 import java.util.UUID;
 
+import static dev.memocode.memocode_authorization_server.domain.account.entity.Authority.ANONYMOUS;
+import static dev.memocode.memocode_authorization_server.domain.account.entity.Authority.USER;
+import static dev.memocode.memocode_authorization_server.domain.exception.GlobalErrorCode.ACCOUNT_NOT_FOUND;
+
 @Service
+@Validated
 @Transactional
 @RequiredArgsConstructor
-public class AccountService {
+public class AccountService implements AccountUseCase {
+
+    private static final Authority DEFAULT_AUTHORITY = ANONYMOUS;
+    private static final Authority DEFAULT_AUTHORITY_AFTER_SIGNUP = USER;
 
     private final AccountRepository accountRepository;
 
-    public Optional<Account> findByAuthIdAndAuthType(String authId, AuthType authType) {
-        return accountRepository.findByAuthIdAndAuthType(authId, authType);
+    private final AccountMapper accountMapper;
+
+    @Override
+    public void updateAccountAfterSignup(AccountUpdateAfterSignupDTO dto) {
+        Account account = findByUserIdElseThrow(dto.getUserId());
+        account.updateAuthority(DEFAULT_AUTHORITY_AFTER_SIGNUP);
     }
 
-    public Optional<Account> findById(UUID accountId) {
-        return accountRepository.findById(accountId);
+    @Override
+    public AccountDTO findAccountOrCreateAccount(AccountFindOrCreateDTO dto) {
+        Account account = findByAuthIdAndAuthType(dto.getAuthId(), dto.getType())
+                .orElseGet(() -> {
+                    AccountCreateDTO accountCreateDTO = accountMapper.accountFindOrCreateDTO_to_accountCreateDTO(dto);
+                    return createAccount(accountCreateDTO);
+                });
+
+        return accountMapper.entityToDTO(account);
     }
 
-    public Account findByIdElseThrow(UUID accountId) {
+    @Override
+    public AccountDTO findAccountById(UUID accountId) {
+        Account account = findByIdElseThrow(accountId);
+
+        return accountMapper.entityToDTO(account);
+    }
+
+    private Account findByIdElseThrow(UUID accountId) {
         return findById(accountId)
-                .orElseThrow(() -> new GlobalException(GlobalErrorCode.ACCOUNT_AUTHORITY_NOT_FOUND));
+                .orElseThrow(() -> new GlobalException(ACCOUNT_NOT_FOUND));
     }
 
-    public Account createAccount(AccountCreateDTO dto) {
+    private Account createAccount(AccountCreateDTO dto) {
         Account account = Account.builder()
                 .authType(dto.getType())
                 .authId(dto.getAuthId())
                 .email(dto.getEmail())
-                .authority(dto.getAuthority())
+                .userId(UUID.randomUUID())
+                .authority(DEFAULT_AUTHORITY)
                 .build();
 
         return accountRepository.save(account);
     }
 
-    public void updateAccount(AccountUpdateDTO dto) {
-        Account account = findByIdElseThrow(dto.getAccountId());
+    private Optional<Account> findByAuthIdAndAuthType(String authId, AuthType authType) {
+        return accountRepository.findByAuthIdAndAuthType(authId, authType);
+    }
 
-        account.updateAuthority(dto.getAuthority());
+    private Optional<Account> findById(UUID accountId) {
+        return accountRepository.findById(accountId);
+    }
+
+    private Optional<Account> findByUserId(UUID userId) {
+        return accountRepository.findByUserId(userId);
+    }
+
+    public Account findByUserIdElseThrow(UUID userId) {
+        return findByUserId(userId)
+                .orElseThrow(() -> new GlobalException(ACCOUNT_NOT_FOUND));
     }
 }
