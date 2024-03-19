@@ -1,3 +1,4 @@
+# application.yml은 수정하지 마세요!
 server:
   servlet:
     session:
@@ -14,8 +15,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: "SECRET"
-    username: "SECRET"
-    password: "SECRET"
+    username: ${DB_USERNAME:SECRET}
+    password: ${DB_PASSWORD:SECRET}
   jpa:
     hibernate:
       ddl-auto: validate
@@ -37,7 +38,7 @@ spring:
             user-name-attribute: id
         registration:
           kakao:
-            client-id: "CLIENT_ID" # secret
+            client-id: ${KAKAO_CLIENT_ID:SECRET}
             redirect-uri: "REDIRECT_URI" # secret
             client-authentication-method: client_secret_post
             authorization-grant-type: authorization_code
@@ -55,8 +56,8 @@ spring:
               refresh-token-time-to-live: 30d
             registration:
               client-name: "public-client"
-              client-id: "SECRET_public-client"
-              client-secret: "SECRET_public-client"
+              client-id: ${PUBLIC_CLIENT_CLIENT_ID:SECRET}
+              client-secret: ${PUBLIC_CLIENT_CLIENT_SECRET:SECRET}
               client-authentication-methods:
                 - "client_secret_basic"
                 - "client_secret_post"
@@ -71,42 +72,17 @@ spring:
                 - "openid"
             require-authorization-consent: false
             require-proof-key: true
-          user-server:
-            token:
-              access-token-time-to-live: 5m
-            registration:
-              client-name: "user-server"
-              client-id: "SECRET_user-server"
-              client-secret: "SECRET_user-server"
-              client-authentication-methods:
-                - "client_secret_basic"
-                - "client_secret_post"
-              authorization-grant-types:
-                - "client_credentials"
-              scopes:
-                - "write:account"
   kafka:
     topic:
       users: "SECRET"
-    security:
-      protocol: SASL_SSL
-    ssl:
-      trust-store-location: classpath:/kafka/client-truststore.jks
-      trust-store-password: 123456
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
-      bootstrap-servers: prod-server:31092
-      properties:
-        sasl.mechanism: SCRAM-SHA-512
-        sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="test-user" password="nX2sey9AqcR0ti5dsj22fktwKDupmi";
+      bootstrap-servers: "SECRET"
     consumer:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      bootstrap-servers: prod-server:31092
-      properties:
-        sasl.mechanism: SCRAM-SHA-512
-        sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username="test-user" password="nX2sey9AqcR0ti5dsj22fktwKDupmi";
+      bootstrap-servers: "SECRET"
       auto-offset-reset: "earliest"
 
 # logging
@@ -118,10 +94,6 @@ decorator:
   datasource:
     p6spy:
       enable-logging: false
-
-jasypt:
-  encryptor:
-    password: "SECRET"
 
 custom:
   front:

@@ -7,8 +7,6 @@ server:
 spring:
   datasource:
     url: jdbc:mysql://mysql.mysql:3306/memocode_authorization_server_dev
-    username: memocode-dev
-    password: memocode-dev
   security:
     oauth2:
       resourceserver:
@@ -17,7 +15,6 @@ spring:
       client:
         registration:
           kakao:
-            client-id: "2fc58fb6caf2f47ac9b7db292a86941e"
             redirect-uri: "https://auth.dev.memocode.dev/login/oauth2/code/kakao"
       authorizationserver:
         client:
@@ -25,23 +22,19 @@ spring:
             token:
               access-token-time-to-live: 30d
             registration:
-              client-id: "bcf89ce8-0750-4c02-8b09-88bafc60abcd"
-              client-secret: "{noop}0cc07a17-28fa-4bc6-b081-e57cd7d6efdd"
               redirect-uris:
                 - "http://localhost:5173"
                 - "https://dev.memocode.dev"
               post-logout-redirect-uris:
                 - "http://localhost:5173"
                 - "https://dev.memocode.dev"
-          user-server:
-            registration:
-              client-id: "8ff2570b-8d6f-4bd9-b342-4b17e5f14d1b"
-              client-secret: "{noop}2d4283d2-e8f1-41a6-bef2-a1219826b180"
   kafka:
-    ssl:
-      trust-store-location: file://kafka/client-truststore/client-truststore.jks
     topic:
       users: "memocode-dev.outbox.event.USER"
+    producer:
+      bootstrap-servers: redpanda-0.redpanda.redpanda:9093
+    consumer:
+      bootstrap-servers: redpanda-0.redpanda.redpanda:9093
 
 custom:
   front:

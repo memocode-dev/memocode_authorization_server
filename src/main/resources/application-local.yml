@@ -2,8 +2,6 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://prod-server:32000/memocode_authorization_server_dev
-    username: memocode-dev
-    password: memocode-dev
   security:
     oauth2:
       resourceserver:
@@ -12,7 +10,6 @@ spring:
       client:
         registration:
           kakao:
-            client-id: "2fc58fb6caf2f47ac9b7db292a86941e"
             redirect-uri: "http://localhost:9000/login/oauth2/code/kakao"
       authorizationserver:
         client:
@@ -20,19 +17,28 @@ spring:
             token:
               access-token-time-to-live: 30d
             registration:
-              client-id: "bcf89ce8-0750-4c02-8b09-88bafc60abcd"
-              client-secret: "{noop}0cc07a17-28fa-4bc6-b081-e57cd7d6efdd"
               redirect-uris:
                 - "http://localhost:5173"
               post-logout-redirect-uris:
                 - "http://localhost:5173"
-          user-server:
-            registration:
-              client-id: "2c3c2ad3-c751-4bef-926a-0023ea0d279d"
-              client-secret: "{noop}16f9fa67-ed29-47a3-9781-6f4207b62aac"
   kafka:
     topic:
       users: "memocode-dev.outbox.event.USER"
+    security:
+      protocol: SASL_SSL
+    ssl:
+      trust-store-location: classpath:/kafka/client-truststore.jks
+      trust-store-password: 123456
+    producer:
+      bootstrap-servers: prod-server:31092
+      properties:
+        sasl.mechanism: SCRAM-SHA-512
+        sasl.jaas.config: ${SASL_JAAS_CONFIG:org.apache.kafka.common.security.scram.ScramLoginModule required username="user" password="1234";}
+    consumer:
+      bootstrap-servers: prod-server:31092
+      properties:
+        sasl.mechanism: SCRAM-SHA-512
+        sasl.jaas.config: ${SASL_JAAS_CONFIG:org.apache.kafka.common.security.scram.ScramLoginModule required username="user" password="1234";}
 
 custom:
   front:
