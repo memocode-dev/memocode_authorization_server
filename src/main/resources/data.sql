@@ -25,6 +25,7 @@ CREATE TABLE oauth2_authorization
     oidc_id_token_issued_at       timestamp     DEFAULT NULL,
     oidc_id_token_expires_at      timestamp     DEFAULT NULL,
     oidc_id_token_metadata        TEXT          DEFAULT NULL,
+    oidc_id_token_claims          TEXT          DEFAULT NULL,
     refresh_token_value           TEXT          DEFAULT NULL,
     refresh_token_issued_at       timestamp     DEFAULT NULL,
     refresh_token_expires_at      timestamp     DEFAULT NULL,
