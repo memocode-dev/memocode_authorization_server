@@ -17,6 +17,13 @@ spring:
     url: "SECRET"
     username: ${DB_USERNAME:SECRET}
     password: ${DB_PASSWORD:SECRET}
+  data:
+    redis:
+      repositories:
+        enabled: true
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: validate
