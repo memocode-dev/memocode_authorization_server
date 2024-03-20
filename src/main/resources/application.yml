@@ -17,6 +17,9 @@ spring:
     url: "SECRET"
     username: ${DB_USERNAME:SECRET}
     password: ${DB_PASSWORD:SECRET}
+  threads:
+    virtual:
+      enabled: true
   data:
     redis:
       repositories:
